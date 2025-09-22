@@ -1,0 +1,27 @@
+#include <vector>
+
+class Solution {
+public:
+    bool isCovered(std::vector<std::vector<int>>& ranges, int left, int right) {
+        // Iterate through each integer in the target range [left, right]
+        for (int i = left; i <= right; ++i) {
+            bool covered = false; // Flag to track if the current integer 'i' is covered
+            // Iterate through all given ranges
+            for (const auto& range : ranges) {
+                int start = range[0];
+                int end = range[1];
+                // Check if the current integer 'i' falls within the current range
+                if (i >= start && i <= end) {
+                    covered = true; // Mark as covered
+                    break;          // No need to check other ranges for this integer
+                }
+            }
+            // If the current integer 'i' is not covered by any range, return false
+            if (!covered) {
+                return false;
+            }
+        }
+        // If all integers in the range [left, right] are covered, return true
+        return true;
+    }
+};
