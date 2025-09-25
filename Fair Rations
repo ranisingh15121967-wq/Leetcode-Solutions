@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdlib.h> 
+
+
+int fairRations(int B[], int n) {
+    int loaves = 0;
+
+    
+    for (int i = 0; i < n - 1; ++i) {
+        
+        if (B[i] % 2 != 0) {
+            
+            B[i]++;
+            B[i + 1]++;
+            loaves += 2; 
+        }
+    }
+
+    
+    if (B[n - 1] % 2 != 0) {
+        return -1; 
+    } else {
+        return loaves; 
+    }
+}
+
+int main() {
+    int n;
+    scanf("%d", &n); 
+
+    int *B = (int *)malloc(n * sizeof(int)); 
+
+    
+    for (int i = 0; i < n; ++i) {
+        scanf("%d", &B[i]);
+    }
+
+    int result = fairRations(B, n); 
+
+    if (result == -1) {
+        printf("NO\n");
+    } else {
+        printf("%d\n", result);
+    }
+
+    free(B); 
+    return 0;
+}
