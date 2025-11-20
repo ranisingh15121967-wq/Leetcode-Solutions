@@ -1,0 +1,32 @@
+```c
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+int anagram(char* s) {
+    int len = strlen(s);
+    if (len % 2 != 0) return -1;
+
+    int count[26] = {0};
+    int mid = len / 2;
+    for (int i = 0; i < mid; i++) count[s[i] - 'a']++;
+    for (int i = mid; i < len; i++) count[s[i] - 'a']--;
+
+    int changes = 0;
+    for (int i = 0; i < 26; i++) {
+        if (count[i] > 0) changes += count[i];
+    }
+    return changes;
+}
+
+int main() {
+    int t;
+    scanf("%d", &t);
+    char s[10001];
+    while (t--) {
+        scanf("%s", s);
+        printf("%d\n", anagram(s));
+    }
+    return 0;
+}
+```
