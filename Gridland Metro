@@ -1,0 +1,67 @@
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    int start, end;
+} Interval;
+
+int compare(const void* a, const void* b) {
+    Interval* x = (Interval*)a;
+    Interval* y = (Interval*)b;
+    return x->start - y->start;
+}
+
+int gridlandMetro(int n, int m, int k, int track[][3]) {
+    int total = n * m;
+    Interval* rows[n + 1];
+    int count[n + 1];
+    for (int i = 0; i <= n; i++) {
+        rows[i] = NULL;
+        count[i] = 0;
+    }
+
+    for (int i = 0; i < k; i++) {
+        int r = track[i][0];
+        int c1 = track[i][1];
+        int c2 = track[i][2];
+        rows[r] = realloc(rows[r], sizeof(Interval) * (count[r] + 1));
+        rows[r][count[r]].start = c1;
+        rows[r][count[r]].end = c2;
+        count[r]++;
+    }
+
+    for (int i = 1; i <= n; i++) {
+        if (count[i] == 0) continue;
+        qsort(rows[i], count[i], sizeof(Interval), compare);
+        int covered = 0;
+        int start = rows[i][0].start;
+        int end = rows[i][0].end;
+        for (int j = 1; j < count[i]; j++) {
+            if (rows[i][j].start <= end) {
+                if (rows[i][j].end > end) end = rows[i][j].end;
+            } else {
+                covered += end - start + 1;
+                start = rows[i][j].start;
+                end = rows[i][j].end;
+            }
+        }
+        covered += end - start + 1;
+        total -= covered;
+        free(rows[i]);
+    }
+
+    return total;
+}
+
+int main() {
+    int n, m, k;
+    scanf("%d %d %d", &n, &m, &k);
+    int track[k][3];
+    for (int i = 0; i < k; i++) {
+        scanf("%d %d %d", &track[i][0], &track[i][1], &track[i][2]);
+    }
+    printf("%d\n", gridlandMetro(n, m, k, track));
+    return 0;
+}
+```
