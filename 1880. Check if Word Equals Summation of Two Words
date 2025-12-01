@@ -1,0 +1,12 @@
+class Solution {
+public:
+    int value(string s) {
+        string t;
+        for (char c : s) t += to_string(c - 'a');
+        return stoi(t);
+    }
+    
+    bool isSumEqual(string firstWord, string secondWord, string targetWord) {
+        return value(firstWord) + value(secondWord) == value(targetWord);
+    }
+};
