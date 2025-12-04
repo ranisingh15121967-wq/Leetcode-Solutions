@@ -1,0 +1,27 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+long largestRectangle(vector<int> h) {
+    stack<int> st;
+    long maxA = 0;
+    int n = h.size();
+    for(int i = 0; i <= n; i++){
+        long cur = (i == n ? 0 : h[i]);
+        while(!st.empty() && cur < h[st.top()]){
+            long height = h[st.top()];
+            st.pop();
+            long width = st.empty() ? i : i - st.top() - 1;
+            maxA = max(maxA, height * width);
+        }
+        st.push(i);
+    }
+    return maxA;
+}
+
+int main() {
+    int n;
+    cin >> n;
+    vector<int> h(n);
+    for(int i = 0; i < n; i++) cin >> h[i];
+    cout << largestRectangle(h);
+}
